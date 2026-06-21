@@ -1,0 +1,231 @@
+/* This file contains all shared classes that would be used in many places in project */
+
+/* ===========================
+   Display
+=========================== */
+
+.d-block {
+  display: block;
+}
+.d-inline {
+  display: inline;
+}
+.d-inline-block {
+  display: inline-block;
+}
+.d-flex {
+  display: flex;
+}
+.d-grid {
+  display: grid;
+}
+.d-none {
+  display: none;
+}
+
+/* ===========================
+   Flex Utilities
+=========================== */
+
+.flex-row {
+  flex-direction: row;
+}
+.flex-column {
+  flex-direction: column;
+}
+
+.justify-start {
+  justify-content: flex-start;
+}
+.justify-center {
+  justify-content: center;
+}
+.justify-end {
+  justify-content: flex-end;
+}
+.justify-between {
+  justify-content: space-between;
+}
+.justify-around {
+  justify-content: space-around;
+}
+
+.align-start {
+  align-items: flex-start;
+}
+.align-center {
+  align-items: center;
+}
+.align-end {
+  align-items: flex-end;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+.flex-nowrap {
+  flex-wrap: nowrap;
+}
+.gap-5{
+  gap:5px;
+}
+.gap-10{
+  gap:10px;
+}
+.gap-20 {
+  gap: 20px;
+}
+
+/* ===========================
+   Text Utilities
+=========================== */
+
+.text-left {
+  text-align: left;
+}
+.text-center {
+  text-align: center;
+}
+.text-right {
+  text-align: right;
+}
+.text-end {
+  text-align: end;
+}
+.text-start {
+  text-align: start;
+}
+
+.text-uppercase {
+  text-transform: uppercase;
+}
+.text-lowercase {
+  text-transform: lowercase;
+}
+.text-capitalize {
+  text-transform: capitalize;
+}
+
+/* ===========================
+   Width & Height
+=========================== */
+
+.w-100 {
+  width: 100%;
+}
+.w-75 {
+  width: 75%;
+}
+.w-50 {
+  width: 50%;
+}
+.w-25 {
+  width: 25%;
+}
+
+.h-100 {
+  height: 100%;
+}
+.h-50 {
+  height: 50%;
+}
+.h-25 {
+  height: 25%;
+}
+
+/* ===========================
+   Position
+=========================== */
+
+.position-relative {
+  position: relative;
+}
+.position-absolute {
+  position: absolute;
+}
+.position-fixed {
+  position: fixed;
+}
+.position-sticky {
+  position: sticky;
+}
+.position-static {
+  position: static;
+}
+
+.top-0 {
+  top: 0;
+}
+.bottom-0 {
+  bottom: 0;
+}
+.left-0 {
+  left: 0;
+}
+.right-0 {
+  right: 0;
+}
+
+
+.object-cover{
+  object-fit: cover;
+}
+.object-fill {
+  object-fit: fill;
+}
+.object-contain {
+  object-fit: contain;
+}
+
+.inset-0{
+  inset:0;
+}
+/* ===========================
+   Overflow
+=========================== */
+
+.overflow-hidden {
+  overflow: hidden;
+}
+.overflow-auto {
+  overflow: auto;
+}
+
+/* ===========================
+   Border
+=========================== */
+
+.rounded {
+  border-radius:15px;
+}
+.rounded-circle {
+  border-radius: 50%;
+}
+
+/* ===========================
+   Cursor
+=========================== */
+
+.cursor-pointer {
+   cursor: pointer; 
+}
+
+/* ===========================
+   Visibility
+=========================== */
+
+.visible {
+  visibility: visible;
+}
+.invisible {
+  visibility: hidden;
+}
+
+/* ===========================
+   Container
+=========================== */
+
+.container {
+  width: 90%;
+  margin: auto;
+}

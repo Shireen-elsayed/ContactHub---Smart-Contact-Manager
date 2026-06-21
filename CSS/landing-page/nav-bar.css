@@ -1,0 +1,114 @@
+/* Write the code for nav-bar section here */
+
+
+nav {
+    padding-block: 10px;
+    background-color: #fff;
+}
+
+nav p,
+nav i {
+    color: var(--gray-dark);
+}
+
+nav .logo {
+    padding: 7px;
+    border-radius: 12px;
+    background: linear-gradient(to left, #7A26FD, #5736F8);
+}
+
+nav h1 {
+    font-size: 16px;
+}
+
+nav .logo i {
+    color: var(--color-white);
+    font-size: var(--fz-20);
+}
+
+nav .form-btn {
+    color: var(--color-white);
+    font-weight: bold;
+    border-color: transparent;
+    padding: 8px 12px;
+    background: linear-gradient(to left, #7A26FD, #5736F8);
+    border-radius: 12px;
+}
+
+nav .form-btn span {
+    font-weight: normal;
+}
+
+.form-btn:hover {
+    translate: 0 -5px;
+    cursor: pointer;
+    box-shadow: 2px 8px 10px #E1D5FC;
+}
+
+nav .form-icons i {
+    display: none;
+}
+
+nav .form-btn span:nth-child(2) {
+    display: none;
+}
+
+nav .form-icons img {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+}
+
+/* Media Queries if needed */
+@media (min-width: 576px) {
+    nav .logo {
+        padding: 10px;
+    }
+
+    nav .form-icons i {
+        display: inline-block;
+    }
+
+    nav .right-icons {
+        padding: 10px;
+        border-radius: 12px;
+    }
+
+    nav .right-icons:hover {
+        background-color: var(--gray-light);
+
+        i {
+            color: #000;
+        }
+    }
+
+    nav h1 {
+        font-size: 24px;
+    }
+
+    nav .text-nav p {
+        display: block;
+        font-size: 12px;
+    }
+
+    nav .form-btn span:nth-child(2) {
+        display: inline;
+    }
+
+    nav .form-icons,
+    nav .logo-text-nav {
+        gap: 20px;
+    }
+
+    nav .form-btn {
+        padding: 10px 15px;
+    }
+}
+
+@media (min-width: 768px) {}
+
+@media (min-width: 992px) {}
+
+@media (min-width: 1200px) {}
+
+@media (min-width: 1400px) {}

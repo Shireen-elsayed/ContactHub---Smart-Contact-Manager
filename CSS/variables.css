@@ -1,0 +1,52 @@
+/* This file contains all CSS variables that would be used in many places in project */
+
+:root {
+  --half-rem: 0.5rem;
+  --one-rem: 1rem;
+  --one-half-rem: 1.5rem;
+  --two-rem: 2rem;
+  --two_half-rem: 2.5rem;
+  --three-rem: 3rem;
+  --fz-8: 8px;
+  --fz-10: 10px;
+  --fz-12: 12px;
+  --fz-14: 14px;
+  --fz-16: 16px;
+  --fz-18: 18px;
+  --fz-20: 20px;
+  --fz-24: 24px;
+  --fz-30: 30px;
+  --fz-35: 35px;
+  --fz-36: 36px;
+  --fz-40: 40px;
+  --fz-48: 48px;
+  --fz-60: 60px;
+  --fz-72: 72px;
+  --fw-400: 400;
+  --fw-500: 500;
+  --fw-600: 600;
+  --fw-700: 700;
+  --freq-font-color: rgba(255, 255, 255, 0.697);
+  --main-padding: 60px;
+  --bg-color: #F1F7FC;
+  --color-light-bg: #f9fafb;
+  --color-white: #ffffff;
+  --gray-light: #F3F4F6;
+  --gray-mid: #99A1AF;
+  --gray-dark: #6A7282;
+  --gray:#555F6E;
+  --shadow-light: 0 10px 20px rgba(16, 8, 8, 0.08);
+  --shadow-hover: 0 5px 10px rgba(0, 0, 0, 0.4);
+  --purple: #9C37FE;
+  --purple-dark: #7F22FE;
+  --purple-light: #EDE9FE;
+  --red-light: #FEF1F2;
+  --red-dark: #FF2056;
+  --green-light: #D0FAE5;
+  --green-dark: #00BC7D;
+  --blue-light: #DBEAFE;
+  --blue-dark: #155DFC;
+  --yellow: #FFB900;
+  --yellow-light: #FFFBEB;
+  --yellow-mid: #FEF3C6;
+}

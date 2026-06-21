@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="CSS/style.css" />
+    <link rel="stylesheet" href="CSS/all.min.css" />
+    <link rel="shortcut icon" href="./Assets/fav-icon.svg" type="image/svg+xml">
+    <title>ContactHub - Smart Contact Manager</title>
+</head>
+
+<body>
+    <nav>
+        <div class="container">
+            <div class="d-flex justify-between align-center flex-nowrap">
+                <div class="logo-text-nav d-flex align-center justify-between gap-5">
+                    <div class="logo"><i class="fa-solid fa-address-book"></i></div>
+                    <div class="text-nav">
+                        <h1>Contact<span style="color:var(--purple)">Hub</span></h1>
+                        <p class="d-none">Smart Contact Manager</p>
+                    </div>
+                </div>
+                <div class="form-icons d-flex align-center justify-between gap-5">
+                    <button class="form-btn d-flex flex-unwrap add-btn"><span style="margin-right:5px;">+</span>Add
+                        <span style="font-weight: bold; margin-left:5px;">Contact</span></button>
+                    <div class="right-icons"><i class="fa-solid fa-bell"></i></div>
+                    <div class="right-icons"><i class="fa-solid fa-gear"></i></div>
+                    <img src="./Assets/profile-picture.jpg" alt="My Profile photo.">
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="container main-content">
+        </section>
+    </main>
+    <div class="overlay position-fixed d-flex align-center justify-center">
+        <form action="#" method="get" class="rounded d-flex flex-column">
+            <header class="d-flex justify-between align-center">
+                <h1>Add New Contact</h1>
+                <i class="fa-solid fa-x"></i>
+            </header>
+            <div class="form-fields">
+                <div class="d-flex flex-column justify-center align-center">
+                    <div class="rounded-photo rounded-circle d-flex align-center justify-center position-relative overflow-hidden">
+                        <img id="priview" src="." alt="" class="object-cover w-100 h-100 position-absolute inset-0">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <label for="img" class="cursor-pointer change-img rounded d-flex">
+                        <i class="fa-solid fa-camera"></i>
+                        <span>Change Photo</span>
+                    </label>
+                    <input type="file" name="img" accept="image/*" id="img" hidden>
+                </div>
+                <div class="field d-flex flex-column justify-center align-start gap-10">
+                    <label for="name">
+                        Full Name <sup><i class="fa-solid fa-star-of-life fa-2xs"></i></sup>
+                    </label>
+                    <input type="text" name="name" id="name" placeholder="Enter Full Name" class="w-100 rounded">
+                    <span class="warning">Name should contain only letters and spaces (2-50 characters)</span>
+                </div>
+                <div class="field d-flex flex-column justify-center align-start gap-10">
+                    <label for="phone">
+                        Phone Number <sup><i class="fa-solid fa-star-of-life fa-2xs"></i></sup>
+                    </label>
+                    <input type="tel" name="phone" id="phone" placeholder="e.g., 01119157866" class="w-100 rounded">
+                    <span class="warning">Please enter a valid Egyptian phone number</span>
+                </div>
+                <div class="field d-flex flex-column justify-center align-start gap-10">
+                    <label for="email">
+                        Email Address<sup><i class="fa-solid fa-star-of-life fa-2xs"></i></sup>
+                    </label>
+                    <input type="email" name="email" id="email" placeholder="name@example.com" class="w-100 rounded">
+                    <span class="warning">Please enter a valid email address</span>
+                </div>
+                <div class="field d-flex flex-column justify-center align-start gap-10">
+                    <label for="address">
+                        Enter Address <sup><i class="fa-solid fa-star-of-life fa-2xs"></i></sup>
+                    </label>
+                    <input type="text" name="address" id="address" placeholder="Enter Address" class="w-100 rounded">
+                    <span class="warning">Please enter a valid address</span>
+                </div>
+
+                <div class="field d-flex flex-column justify-center align-start gap-10">
+                    <label for="Group">
+                        Group<sup><i class="fa-solid fa-star-of-life fa-2xs"></i></sup>
+                    </label>
+                    <select class="w-100 rounded" id="Group">
+                        <option value="Friends">Friends</option>
+                        <option value="Family">Family</option>
+                        <option value="Work">Work</option>
+                        <option value="School">School</option>
+                        <option value="Others">Others</option>
+                    </select>
+                </div>
+
+                <div class="field d-flex flex-column justify-center align-start gap-10">
+                    <label for="Notes">
+                        Notes
+                    </label>
+                    <textarea name="Notes" id="Notes" cols="20" rows="10"
+                        class="rounded w-100 overflow-auto"></textarea>
+                </div>
+
+                <div class="d-flex align-center justify-around">
+                    <div>
+                        <input type="checkbox" name="Favourite" id="Favourite">
+                        <i class="fa-solid fa-star" style="color: var(--yellow);"></i>
+                        <label for="Favourite" style="color: rgb(0, 0, 0)" ;>Favourite</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="Emergency" id="Emergency">
+                        <i class="fa-solid fa-heart-pulse" style="color: var(--red-dark)"></i>
+                        <label for="Emergency" style="color: rgb(0, 0, 0);">Emergency</label>
+                    </div>
+                </div>
+
+            </div>
+            <footer class="d-flex flex-column form-btns">
+                <button class="save form-btn" type="submit"><i class="fa-solid fa-check"></i> Save Contact</button>
+                <button class="cancel form-btn" type="button">Cancel</button>
+            </footer>
+        </form>
+    </div>
+</body>
+<script src="./JS/main.js"></script>
+
+</html>

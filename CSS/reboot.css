@@ -1,0 +1,46 @@
+/* This file contains initial configurations */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  transition: all ease 0.3s;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol,
+figure,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+
+body {
+  padding:0;
+  margin: 0;
+  font-family: sans-serif;
+}
+
+ul,
+ol {
+  list-style: none;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+html {
+  scroll-behavior: smooth;
+}

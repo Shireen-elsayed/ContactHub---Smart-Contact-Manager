@@ -1,0 +1,144 @@
+/* Write the code for main section here */
+
+.overlay {
+    inset: 0;
+    background-color: rgba(120, 123, 126, 0.4);
+    display:none;
+}
+
+form {
+    background-color: #fff;
+    width: 75%;
+    height: 80%;
+    max-width: 700px;
+    max-height: 700px;
+}
+
+form header {
+    border-bottom: 1px solid var(--gray-light);
+    padding: 25px 15px;
+
+    h1 {
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    i {
+        color: var(--gray-mid);
+        font-size: 18px;
+    }
+
+    i:hover {
+        cursor: pointer;
+        color: #000;
+    }
+}
+
+form .form-fields {
+    overflow-y: auto;
+    padding: 15px;
+    flex: 1;
+}
+
+form footer {
+    border-top: 1px solid var(--gray-light);
+    padding: 15px;
+}
+
+form footer .form-btn {
+    width: 100%;
+    border-radius: 10px;
+    border-color: transparent;
+    color: #fff;
+    padding-block: 10px;
+    margin: 5px auto;
+}
+
+form footer .save {
+    background-color: var(--green-dark);
+}
+
+form footer .cancel {
+    background-color: var(--red-dark);
+}
+
+
+
+/* Input Fields */
+.form-fields .rounded-photo {
+    background-color: var(--blue-dark);
+    margin-bottom: 20px;
+    width: 150px;
+    height: 150px;
+    padding: 55px;
+
+    .fa-user {
+        color: #fff;
+        font-size: 55px;
+    }
+}
+
+.form-fields .change-img {
+    background-color: var(--gray-light);
+    color: var(--gray);
+    padding: 20px;
+    i {
+        color: var(--gray-dark);
+        margin-right: 10px;
+    }
+}
+
+form .field .warning, .fa-star-of-life {
+    color: var(--red-dark);
+    font-size: 12px;
+
+}
+
+form .form-fields label{
+color:var(--gray);
+    font-size: 14px;
+}
+
+form .form-fields input, .form-fields select ,textarea{
+    background-color: var(--gray-light);
+    border: 0.5px solid var(--gray-mid);
+    padding: 20px;
+   font-size: 16px;
+}
+
+form .form-fields textarea{
+    height: 100px;
+    resize: none;
+}
+
+form .form-fields .field{
+    margin-block:20px ;
+}
+
+
+
+/* Media Queries if needed */
+@media (min-width: 576px) {
+
+    form header h1 {
+        font-size: 22px;
+    }
+
+    form footer .form-btn {
+        width: 45%;
+        padding: 15px;
+        font-size: 16px;
+    }
+
+    form .form-btns {
+        flex-direction: row-reverse;
+    }
+}
+
+@media (min-width: 768px) {}
+
+@media (min-width: 992px) {}
+
+@media (min-width: 1200px) {}
+
+@media (min-width: 1400px) {}
