@@ -1,17 +1,197 @@
 /* Write the code for main section here */
 
-body{
+body {
     background-color: var(--bg-color);
 }
 
+.main-content {
+    padding-block: 30px;
+
+    .info-cards {
+        grid-template-columns: 1fr;
+
+        p {
+            color: var(--gray-dark);
+        }
+
+        .counters {
+            background-color: #fff;
+            box-shadow: -10px -10px 15px #dddcdc;
+            padding: 10px;
+        }
+
+        .counters:hover {
+            box-shadow: none;
+        }
+    }
+
+    .user-icon {
+        display: inline;
+        color: #fff;
+        padding: 15px;
+        background-color: var(--blue-dark);
+        box-shadow: 0px 8px 5px rgba(202, 209, 254, 0.7);
+    }
+
+    .star-icon {
+        display: inline;
+        color: #fff;
+        padding: 15px;
+        background-color: var(--yellow-dark);
+        box-shadow: 0px 8px 5px rgba(252, 241, 200, 0.7);
+    }
+
+    .heart-icon {
+        display: inline;
+        color: #fff;
+        padding: 15px;
+        background-color: var(--red-dark);
+        box-shadow: 0px 8px 5px rgba(254, 202, 202, 0.7);
+    }
+
+    .fav {
+        border: 3px solid var(--gray-border);
+        margin-top: 25px;
+
+        .fav-heading {
+            background-color: var(--yellow-light);
+            padding: 20px;
+            border-bottom: 2px solid var(--gray-border);
+
+            p {
+                color: var(--gray-dark);
+            }
+        }
+
+        .fav-content {
+            background-color: #fff;
+            text-align: center;
+
+            .no-fav {
+                display: inline-block;
+                margin-block: 100px;
+                color: var(--gray-mid);
+            }
+        }
+    }
+
+    .urgent {
+        border: 3px solid var(--gray-border);
+        margin-top: 20px;
+
+        .urgent-heading {
+            background-color: var(--red-light);
+            padding: 20px;
+            border-bottom: 2px solid var(--gray-border);
+
+            p {
+                color: var(--gray-dark);
+            }
+        }
+
+        .urgent-content {
+            background-color: #fff;
+            text-align: center;
+
+            .no-urgent {
+                display: inline-block;
+                margin-block: 100px;
+                color: var(--gray-mid);
+            }
+        }
+    }
+
+
+    .contacts-cards {
+        h1 {
+            margin-block: 20px 15px;
+        }
+
+        padding-block: 30px;
+        grid-template-columns: 1fr;
+
+        .manage-prg {
+            color: var(--gray-dark)
+        }
+
+        .search-div {
+            margin-block: 20px;
+
+            #search {
+                border: 2px solid var(--gray-light);
+                padding: 20px 20px 20px 40px;
+            }
+
+            .fa-magnifying-glass {
+                color: var(--gray-dark);
+                top: 37%;
+                left: 10px;
+            }
+        }
+
+        #search:focus {
+            color:var(--gray-dark);
+            border: 1px solid #9C37FE;
+            outline: none;
+        }
+
+        .no-contact-div {
+            h4 {
+                margin-top: 20px;
+                color:var(--gray-dark);
+            }
+            p{
+                color: var(--gray-mid);
+            }
+
+            .no-contact-icon {
+                padding: 20px;
+                border-radius: 12px;
+                background-color: #F3F4F6;
+                color: #D1D5DC;
+                font-size: 2rem;
+                display: inline-block;
+                box-shadow: 0 10px 10px rgba(94, 94, 94, 0.5);
+            }
+        }
+
+    }
+}
+
+
+
+
+
 
 /* Media Queries if needed */
-@media (min-width: 576px) {}
+@media (min-width: 576px) {
+    .main-content {
+        .info-cards {
+            grid-template-columns: repeat(2, 1fr);
+        }
 
-@media (min-width: 768px) {}
+    }
+
+
+}
+
+@media (min-width: 768px) {
+    .main-content {
+        .info-cards {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+
+}
 
 @media (min-width: 992px) {}
 
-@media (min-width: 1200px) {}
+@media (min-width: 1200px) {
+    .main-content {
+        .contacts-cards {
+            grid-template-columns: 1fr minmax(auto, 400px);
+        }
+    }
+}
 
 @media (min-width: 1400px) {}

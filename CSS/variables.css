@@ -34,6 +34,7 @@
   --gray-light: #F3F4F6;
   --gray-mid: #99A1AF;
   --gray-dark: #6A7282;
+  --gray-border:#DCDCDC;
   --gray:#555F6E;
   --shadow-light: 0 10px 20px rgba(16, 8, 8, 0.08);
   --shadow-hover: 0 5px 10px rgba(0, 0, 0, 0.4);
@@ -46,7 +47,7 @@
   --green-dark: #00BC7D;
   --blue-light: #DBEAFE;
   --blue-dark: #155DFC;
-  --yellow: #FFB900;
+  --yellow-dark: #FFB900;
   --yellow-light: #FFFBEB;
   --yellow-mid: #FEF3C6;
 }

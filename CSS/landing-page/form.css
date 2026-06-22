@@ -3,7 +3,8 @@
 .overlay {
     inset: 0;
     background-color: rgba(120, 123, 126, 0.4);
-    display:none;
+    display: none;
+    z-index: 99;
 }
 
 form {
@@ -12,6 +13,7 @@ form {
     height: 80%;
     max-width: 700px;
     max-height: 700px;
+    z-index: 100;
 }
 
 form header {
@@ -82,40 +84,69 @@ form footer .cancel {
     background-color: var(--gray-light);
     color: var(--gray);
     padding: 20px;
+
     i {
         color: var(--gray-dark);
         margin-right: 10px;
     }
 }
 
-form .field .warning, .fa-star-of-life {
+form .field .warning,
+.fa-star-of-life {
     color: var(--red-dark);
     font-size: 12px;
 
 }
 
-form .form-fields label{
-color:var(--gray);
+form .form-fields label {
+    color: var(--gray);
     font-size: 14px;
 }
 
-form .form-fields input, .form-fields select ,textarea{
+form .form-fields input,
+form .form-fields select,
+form .form-fields textarea {
     background-color: var(--gray-light);
     border: 0.5px solid var(--gray-mid);
-    padding: 20px;
-   font-size: 16px;
+    padding: 20px 40px 20px 20px;
+    font-size: 16px;
 }
 
-form .form-fields textarea{
+form .form-fields textarea {
     height: 100px;
     resize: none;
 }
 
-form .form-fields .field{
-    margin-block:20px ;
+form .form-fields .field {
+    margin-block: 20px;
 }
 
+form .form-fields input:focus,
+form .form-fields select:focus,
+form .form-fields textarea:focus {
+    background-color: #fff;
+    border: 1px solid #9C37FE;
+    outline: none;
+}
 
+/* validations */
+form .field .error {
+    top: 35%;
+    right: 15px;
+    color: var(--red-dark);
+    display: none;
+}
+
+form .field .warning {
+    display: none;
+}
+
+form .field .success {
+    top: 35%;
+    right: 15px;
+    color: var(--green-dark);
+    display: none;
+}
 
 /* Media Queries if needed */
 @media (min-width: 576px) {
@@ -134,6 +165,8 @@ form .form-fields .field{
         flex-direction: row-reverse;
     }
 }
+
+
 
 @media (min-width: 768px) {}
 

@@ -79,6 +79,12 @@
 /* ===========================
    Text Utilities
 =========================== */
+.bold{
+  font-weight: bold;
+}
+.fnt-sz-20{
+  font-size: 20px;
+}
 
 .text-left {
   text-align: left;
