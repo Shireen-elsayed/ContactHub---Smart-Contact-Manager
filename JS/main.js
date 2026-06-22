@@ -19,6 +19,48 @@ function closeForm() {
 }
 
 
+//validation inputs
+function validInput(input, stat) {
+  let field = input.parentElement.parentElement;
+  let success = field.querySelector(".success");
+  let error = field.querySelector(".error");
+  let warning = field.querySelector(".warning");
+
+  if (stat == "valid") {
+    // success input
+    input.style.cssText = "border-color:var(--green-dark);";
+    success.style.display = "inline-block";
+    error.style.display = "none";
+    warning.style.display = "none";
+  } else if (stat == "invalid") {
+    //failed input
+    input.style.cssText = "border-color:var(--red-dark);";
+    error.style.display = "inline-block";
+    warning.style.display = "block";
+    success.style.display = "none";
+  } else {
+    //default input
+    input.style.cssText = "border-color:var(--gray-dark);";
+    success.style.display = "none";
+    error.style.display = "none";
+    warning.style.display = "none";
+  }
+}
+
+let name = document.querySelector("#name");
+let phone = document.querySelector("#phone");
+let email = document.querySelector("#email");
+let address = document.querySelector("#address");
+
+validInput(name, function () {
+  if (name.value.length > 1 && name.value.length < 51) return "valid";
+  else return "invalid";
+});
+console.log(typeof "valid");
+console.log(typeof function () {});
+
+
+
 //Main Logic
 
 // =>Open Form
