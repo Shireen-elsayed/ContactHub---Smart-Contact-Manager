@@ -34,7 +34,7 @@
 
     <main>
         <div class="overlay position-fixed d-flex align-center justify-center">
-            <form action="#" meth 3.0od="get" class="rounded d-flex flex-column">
+            <form action="#" method="get" class="rounded d-flex flex-column">
                 <header class="d-flex justify-between align-center">
                     <h1>Add New Contact</h1>
                     <i class="fa-solid fa-x"></i>
@@ -57,20 +57,20 @@
                             Full Name <sup><i class="fa-solid fa-star-of-life fa-2xs"></i></sup>
                         </label>
                         <div class="position-relative w-100">
-                            <input type="text" name="name" id="name" placeholder="Enter Full Name"
-                                class="w-100 rounded">
+                            <input required type="text" name="name" id="name" placeholder="Enter Full Name"
+                                class="w-100 rounded" minlength="3" maxlength="50" pattern="[A-Za-z ]{3,50}">
                             <i class="fa-solid fa-circle-exclamation position-absolute error"></i>
                             <i class="fa-solid fa-check position-absolute success"></i>
                         </div>
-                        <span class="warning">Name should contain only letters and spaces (2-50 characters)</span>
+                        <span class="warning">Name should contain only letters and spaces (3-50 characters)</span>
                     </div>
                     <div class="field d-flex flex-column justify-center align-start gap-10">
                         <label for="phone">
                             Phone Number <sup><i class="fa-solid fa-star-of-life fa-2xs"></i></sup>
                         </label>
                         <div class="position-relative w-100">
-                            <input type="tel" name="phone" id="phone" placeholder="e.g., 01119157866"
-                                class="w-100 rounded">
+                            <input required type="tel" name="phone" id="phone" placeholder="e.g., 01119157866"
+                                class="w-100 rounded" pattern="^01[0125][0-9]{8}$">
                             <i class="fa-solid fa-circle-exclamation position-absolute error"></i>
                             <i class="fa-solid fa-check position-absolute success"></i>
                         </div>
@@ -81,7 +81,7 @@
                             Email Address<sup><i class="fa-solid fa-star-of-life fa-2xs"></i></sup>
                         </label>
                         <div class="position-relative w-100">
-                            <input type="email" name="email" id="email" placeholder="name@example.com"
+                            <input required type="email" name="email" id="email" placeholder="name@example.com"
                                 class="w-100 rounded">
                             <i class="fa-solid fa-circle-exclamation position-absolute error"></i>
                             <i class="fa-solid fa-check position-absolute success"></i>
@@ -93,7 +93,7 @@
                             Address <sup><i class="fa-solid fa-star-of-life fa-2xs"></i></sup>
                         </label>
                         <div class="position-relative w-100">
-                            <input type="text" name="address" id="address" placeholder="Enter Address"
+                            <input required type="text" name="address" id="address" placeholder="Enter Address"
                                 class="w-100 rounded">
                             <i class="fa-solid fa-circle-exclamation position-absolute error"></i>
                             <i class="fa-solid fa-check position-absolute success"></i>
@@ -106,7 +106,7 @@
                             Group<sup><i class="fa-solid fa-star-of-life fa-2xs"></i></sup>
                         </label>
                         <select class="w-100 rounded" id="Group">
-                            <option value="Friends">Friends</option>
+                            <option value="Friends" selected>Friends</option>
                             <option value="Family">Family</option>
                             <option value="Work">Work</option>
                             <option value="School">School</option>
@@ -184,10 +184,59 @@
                     </div>
 
                     <div class="no-contact-div d-flex align-center justify-center flex-column gap-10">
-                    <div class="no-contact-icon rounded"><i class="fa-solid fa-address-book"></i></div>
+                        <div class="no-contact-icon rounded"><i class="fa-solid fa-address-book"></i></div>
                         <h4>No contacts found</h4>
                         <p>Click "Add Contact" to get started</p>
                     </div>
+
+                    <div class="contacts d-grid gap-20 overflow-auto">
+                        <!-- <div class="contact rounded counters d-flex gap-10 flex-column justify-center align-start">
+                            <div class="d-flex align-center gap-10 justify-start">
+                                <div
+                                    class="con-img rounded text-center d-flex align-center justify-center position-relative overflow-hidden bold">
+                                    SH
+                                    <img src="./Assets/profile-picture.jpg" alt=""
+                                        class="object-cover w-100 h-100 position-absolute inset-0">
+                                </div>
+                                <div>
+                                    <h2>Shireen</h2>
+                                    <div class="d-flex align-center justify-start">
+                                        <div class="con-icon"
+                                            style="color:var(--blue-dark); background-color: var(--blue-light);"><i
+                                                class="fa-solid fa-phone"></i>
+                                        </div>
+                                        <span>01119157866</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex align-center ">
+                                <div class="con-icon envelope-static"><i class="fa-solid fa-envelope"></i></div>
+                                <span>shireen@gmail.com</span>
+                            </div>
+                            <div class="d-flex align-center ">
+                                <div class="con-icon location"><i class="fa-solid fa-location-dot"></i></div>
+                                <span>shobra</span>
+                            </div>
+                            <span class="con-icon relation "
+                                style="padding: 10px; font-size: var(--fz-12);">FRIENDS</span>
+                            <div class="line w-100" style="height: 2px; background-color: var(--bg-color);"></div>
+                            <div class="d-flex align-center justify-between w-100">
+                                <div class="d-flex align-center ">
+                                    <div class="con-icon phone cursor-pointer"><i class="fa-solid fa-phone"></i></div>
+                                    <div class="con-icon envelope cursor-pointer"><i class="fa-solid fa-envelope"></i>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-center">
+                                    <div class="con-icon star cursor-pointer"><i class="fa-solid fa-star"></i></div>
+                                    <div class="con-icon heart cursor-pointer"><i class="fa-solid fa-heart-pulse"></i>
+                                    </div>
+                                    <div class="con-icon pen cursor-pointer"><i class="fa-solid fa-pen"></i></div>
+                                    <div class="con-icon trash cursor-pointer"><i class="fa-solid fa-trash"></i></div>
+                                </div>
+                            </div>
+                        </div>-->
+                    </div>
+
                 </div>
 
                 <div class="cln-2">
@@ -228,5 +277,6 @@
 
 </body>
 <script src="./JS/main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </html>

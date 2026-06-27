@@ -109,7 +109,7 @@ form .form-fields textarea {
     background-color: var(--gray-light);
     border: 0.5px solid var(--gray-mid);
     padding: 20px 40px 20px 20px;
-    font-size: 16px;
+    font-size: 12px;
 }
 
 form .form-fields textarea {
@@ -130,22 +130,49 @@ form .form-fields textarea:focus {
 }
 
 /* validations */
+/* Default */
 form .field .error {
-    top: 35%;
-    right: 15px;
-    color: var(--red-dark);
     display: none;
 }
-
 form .field .warning {
     display: none;
 }
-
 form .field .success {
+    display: none;
+}
+
+/* InValid */
+form .field.invalid .error {
+    top: 35%;
+    right: 15px;
+    color: var(--red-dark);
+    display: inline-block;
+}
+form .field.invalid .warning {
+    display: inline-block;
+}
+form .field.invalid .success {
+    display: none;
+}
+form .field.invalid .field-border {
+    border-color: var(--red-dark);
+}
+
+/* Valid */
+form .field.valid .error {
+    display: none;
+}
+form .field.valid .warning {
+    display: none;
+}
+form .field.valid .success {
     top: 35%;
     right: 15px;
     color: var(--green-dark);
-    display: none;
+    display: inline-block;
+} 
+form .field.valid .field-border{
+    border-color: var(--green-dark);
 }
 
 /* Media Queries if needed */
