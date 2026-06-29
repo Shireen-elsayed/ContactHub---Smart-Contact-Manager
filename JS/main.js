@@ -18,16 +18,20 @@ let emailInput = document.querySelector("#email");
 let addressInput = document.querySelector("#address");
 let groupSelect = document.getElementById("Group");
 let notes = document.getElementById("Notes");
+let searchBar = document.querySelector("#search");
 
 let noContacts = document.querySelector(".no-contact-div");
 let contactsCards = document.querySelector(".contacts");
 let contacts = JSON.parse(localStorage.getItem("contacts")) || [];
 contacts.forEach(renderContact);
- contacts.length > 0
-   ? (noContacts.style.display = "none")
-   : (noContacts.style.display = "");
 
-let searchBar = document.querySelector("#search");
+if (contacts.length === 0) {
+  noContacts.style.display = "flex";
+  contactsCards.style.display = "none";
+} else {
+  noContacts.style.display = "none";
+  contactsCards.style.display = "grid";
+}
 
 //Functions
 
@@ -174,7 +178,7 @@ function createContact() {
     notes: notes.value.trim(),
     favourite: document.getElementById("Favourite").checked,
     emergency: document.getElementById("Emergency").checked,
-    photo: photo.src || null,
+    photo: photo.getAttribute("src") || null,
   };
   return contact;
 }
@@ -184,13 +188,16 @@ function saveContact(contact) {
   // -push contact to array and set localStorage
   contacts.push(contact);
 
-  contacts.length > 0
-    ? (noContacts.style.display = "none")
-    : (noContacts.style.display = "");
+  if (contacts.length === 0) {
+    noContacts.style.display = "flex";
+    contactsCards.style.display = "none";
+  } else {
+    noContacts.style.display = "none";
+    contactsCards.style.display = "grid";
+  }
 
   window.localStorage.setItem("contacts", JSON.stringify(contacts));
 }
-
 //add card contact in UI
 function renderContact(contact) {
   // -create div and put div in HTML
@@ -210,13 +217,11 @@ function renderContact(contact) {
    <div class="d-flex align-center gap-10 justify-start">
                                 <div
                                     class="con-img rounded text-center d-flex align-center justify-center position-relative overflow-hidden bold">
-                                    ${
-                                      contact.photo
-                                        ? `<img src="${contact.photo}" alt="I am ${contact.name}"
-                                        class="object-cover w-100 h-100 position-absolute inset-0"></img>`
-                                        : contact.name.slice(0, 2).toUpperCase()
-                                    }
-                                    
+                                   ${
+                                     contact.photo
+                                       ? `<img src="${contact.photo}"alt="Photo of ${contact.name}"class="object-cover w-100 h-100 position-absolute inset-0">`
+                                       : `${contact.name.slice(0, 2).toUpperCase()}`
+                                   }
                                 </div>
                                 <div>
                                     <h2>${contact.name}</h2>
@@ -338,13 +343,22 @@ document.addEventListener("keydown", (e) => {
 
 // =>Put image in the div instead of userIcon
 inputPhoto.addEventListener("change", function () {
-  let file = inputPhoto.files[0];
-  if (file) {
-    photo.src = URL.createObjectURL(file);
-    userIcon.style.display = "none";
-  } else {
+  const file = inputPhoto.files[0];
+
+  if (!file) {
     userIcon.style.display = "inline-block";
+    photo.removeAttribute("src");
+    return;
   }
+
+  const reader = new FileReader();
+
+  reader.onload = function (e) {
+    photo.src = e.target.result;
+    userIcon.style.display = "none";
+  };
+
+  reader.readAsDataURL(file);
 });
 
 // =>UI name input
@@ -363,19 +377,20 @@ listener(validateAddress, addressInput);
 searchBar.addEventListener("input", function () {
   const searchVal = searchBar.value.toLowerCase().trim();
   const requiredContacts = contacts.filter((contact) => {
-    return (contact.name.toLowerCase().includes(searchVal) ||
-    contact.email.toLowerCase().includes(searchVal) ||
-    contact.phone.toLowerCase().includes(searchVal));
+    return (
+      contact.name.toLowerCase().includes(searchVal) ||
+      contact.email.toLowerCase().includes(searchVal) ||
+      contact.phone.toLowerCase().includes(searchVal)
+    );
   });
   requiredContacts.forEach(renderContact);
   contactsCards.innerHTML = "";
   if (requiredContacts.length === 0) {
-    noContacts.style.display = "";
+    noContacts.style.display = "flex";
+    contactsCards.style.display = "none";
   } else {
     noContacts.style.display = "none";
+    contactsCards.style.display = "grid";
     requiredContacts.forEach(renderContact);
   }
-  
 });
-
-// localStorage.clear();
