@@ -25,13 +25,10 @@ let contactsCards = document.querySelector(".contacts");
 let contacts = JSON.parse(localStorage.getItem("contacts")) || [];
 contacts.forEach(renderContact);
 
-if (contacts.length === 0) {
-  noContacts.style.display = "flex";
-  contactsCards.style.display = "none";
-} else {
-  noContacts.style.display = "none";
-  contactsCards.style.display = "grid";
-}
+let totalcnt = document.querySelectorAll(".total-cnt");
+totalcnt.forEach((e) => (e.innerHTML = `${contacts.length}`));
+
+updateContactsCards(contacts);
 
 //Functions
 
@@ -183,23 +180,28 @@ function createContact() {
   return contact;
 }
 
-//save contact
-function saveContact(contact) {
-  // -push contact to array and set localStorage
-  contacts.push(contact);
-
-  if (contacts.length === 0) {
+//
+function updateContactsCards(arr) {
+  if (arr.length === 0) {
     noContacts.style.display = "flex";
     contactsCards.style.display = "none";
   } else {
     noContacts.style.display = "none";
     contactsCards.style.display = "grid";
   }
+}
 
+//save contact
+function saveContact(contact) {
+  // -push contact to array and set localStorage
+  contacts.push(contact);
+  updateContactsCards(contacts);
+
+  totalcnt.forEach((e) => (e.innerHTML = `${contacts.length}`));
   window.localStorage.setItem("contacts", JSON.stringify(contacts));
 }
 //add card contact in UI
-function renderContact(contact) {
+function renderContact(contact, index) {
   // -create div and put div in HTML
 
   const contactCard = document.createElement("div");
@@ -247,11 +249,10 @@ function renderContact(contact) {
                             <div class="line w-100" style="height: 2px; background-color: var(--bg-color);"></div>
                             <div class="d-flex align-center justify-between w-100">
                                 <div class="d-flex align-center ">
-                                    <div class="con-icon phone cursor-pointer"><i class="fa-solid fa-phone"></i></div>
-                                    <div class="con-icon envelope cursor-pointer"><i class="fa-solid fa-envelope"></i>
-                                    </div>
+                                    <div class="con-icon phone cursor-pointer"><a href="tel:+"><i class="fa-solid fa-phone"></i></a></div>
+                                    <div class="con-icon envelope cursor-pointer"><a href="mailto:"><i class="fa-solid fa-envelope"></i></a></div>
                                 </div>
-                                <div class="d-flex align-center">
+                                <div class="d-flex align-center ">
                                     <div class="con-icon star cursor-pointer"><i class="fa-solid fa-star"></i></div>
                                     <div class="con-icon heart cursor-pointer"><i class="fa-solid fa-heart-pulse"></i>
                                     </div>
@@ -260,6 +261,31 @@ function renderContact(contact) {
                                 </div>
                             </div>
   `;
+  let trashIcon = contactCard.querySelector(".trash");
+  trashIcon.addEventListener("click", (e) => {
+    Swal.fire({
+      title: "Delete Contact?",
+      text: `Are you sure you want to delete ${contact.name}? This action can't be undone.`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#177A4C",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your Contact has been deleted.",
+          icon: "success",
+        });
+        contacts.splice(index, 1);
+        totalcnt.forEach((e) => (e.innerHTML = `${contacts.length}`));
+        contactCard.remove();
+        updateContactsCards(contacts);
+        localStorage.setItem("contacts", JSON.stringify(contacts));
+      }
+    });
+  });
 
   contactsCards.appendChild(contactCard);
 }
@@ -383,14 +409,7 @@ searchBar.addEventListener("input", function () {
       contact.phone.toLowerCase().includes(searchVal)
     );
   });
-  requiredContacts.forEach(renderContact);
   contactsCards.innerHTML = "";
-  if (requiredContacts.length === 0) {
-    noContacts.style.display = "flex";
-    contactsCards.style.display = "none";
-  } else {
-    noContacts.style.display = "none";
-    contactsCards.style.display = "grid";
-    requiredContacts.forEach(renderContact);
-  }
+  updateContactsCards(requiredContacts);
+  requiredContacts.forEach(renderContact);
 });
