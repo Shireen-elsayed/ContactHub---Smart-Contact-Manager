@@ -19,14 +19,19 @@ let addressInput = document.querySelector("#address");
 let groupSelect = document.getElementById("Group");
 let notes = document.getElementById("Notes");
 let searchBar = document.querySelector("#search");
+let fav = document.getElementById("Favourite");
+let emrg = document.getElementById("Emergency");
+
+let mode = "add";
+let editingIndex = null;
 
 let noContacts = document.querySelector(".no-contact-div");
 let contactsCards = document.querySelector(".contacts");
 let contacts = JSON.parse(localStorage.getItem("contacts")) || [];
-contacts.forEach(renderContact);
 
 let totalcnt = document.querySelectorAll(".total-cnt");
 totalcnt.forEach((e) => (e.innerHTML = `${contacts.length}`));
+contacts.forEach(renderContact);
 
 updateContactsCards(contacts);
 
@@ -160,7 +165,11 @@ function validateForm() {
 
 //check duplicated
 function isDuplicatedNumber(phoneValue) {
-  return contacts.some((contact) => contact.phone === phoneValue);
+  return contacts.some((contact, index) => {
+    return (
+      contact.phone === phoneValue && (index !== editingIndex || mode === "add")
+    );
+  });
 }
 
 //create New contact.
@@ -173,8 +182,8 @@ function createContact() {
     address: addressInput.value.trim(),
     relation: groupSelect.value,
     notes: notes.value.trim(),
-    favourite: document.getElementById("Favourite").checked,
-    emergency: document.getElementById("Emergency").checked,
+    favourite: fav.checked,
+    emergency: emrg.checked,
     photo: photo.getAttribute("src") || null,
   };
   return contact;
@@ -200,6 +209,7 @@ function saveContact(contact) {
   totalcnt.forEach((e) => (e.innerHTML = `${contacts.length}`));
   window.localStorage.setItem("contacts", JSON.stringify(contacts));
 }
+
 //add card contact in UI
 function renderContact(contact, index) {
   // -create div and put div in HTML
@@ -246,6 +256,10 @@ function renderContact(contact, index) {
                             </div>
                             <span class="con-icon relation "
                                 style="padding: 10px; font-size: var(--fz-12);">${contact.relation}</span>
+                            <div class="d-flex align-center ">
+                                <div class="con-icon envelope-static"><i class="fa-regular fa-note-sticky"></i></div>
+                                <span>${contact.notes ? contact.notes : "No notes"}</span>
+                            </div>    
                             <div class="line w-100" style="height: 2px; background-color: var(--bg-color);"></div>
                             <div class="d-flex align-center justify-between w-100">
                                 <div class="d-flex align-center ">
@@ -287,7 +301,28 @@ function renderContact(contact, index) {
     });
   });
 
+  let editIcon = contactCard.querySelector(".pen");
+  editIcon.addEventListener("click", (e) => {
+    mode = "edit";
+    editingIndex = index;
+    fillForm(contact);
+    overlay.style.display = "flex";
+  });
+
   contactsCards.appendChild(contactCard);
+}
+
+// => when open form by using editIcon
+function fillForm(contact) {
+  nameInput.value = contact.name;
+  phoneInput.value = contact.phone;
+  emailInput.value = contact.email;
+  addressInput.value = contact.address;
+  groupSelect.value = contact.relation;
+  notes.value = contact.notes;
+  fav.checked = contact.favourite;
+  emrg.checked = contact.emergency;
+  photo.src = contact.photo;
 }
 
 // =>>SUBMIT FORM
@@ -295,7 +330,21 @@ saveBtn.addEventListener("click", function (e) {
   e.preventDefault();
   if (validateForm()) {
     // all inputs are valid
-    if (isDuplicatedNumber(phoneInput.value.trim())) {
+    if (mode === "edit") {
+      contacts[editingIndex] = createContact();
+      closeForm();
+      form.reset();
+      localStorage.setItem("contacts", JSON.stringify(contacts));
+      Swal.fire({
+        title: "Updated!",
+        text: "Contact has been updated successfully.",
+        icon: "success",
+      });
+      mode = "add";
+      editingIndex = null;
+      contactsCards.innerHTML = "";
+      contacts.forEach(renderContact);
+    } else if (isDuplicatedNumber(phoneInput.value.trim())) {
       // =>Duplicated number
       const duplicatedContact = contacts.find(
         (contact) => contact.phone === phoneInput.value.trim(),
@@ -319,7 +368,8 @@ saveBtn.addEventListener("click", function (e) {
         timer: 2000,
         showConfirmButton: false,
       });
-      renderContact(contact);
+      contactsCards.innerHTML = "";
+      contacts.forEach(renderContact);
       closeForm();
     }
   } else {

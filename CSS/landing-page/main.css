@@ -102,8 +102,6 @@ body {
             margin-block: 20px 15px;
         }
 
-
-
         .manage-prg {
             color: var(--gray-dark)
         }
@@ -130,7 +128,8 @@ body {
         }
 
         .no-contact-div {
-            margin-top:50px;
+            margin-top: 50px;
+
             h4 {
                 margin-top: 20px;
                 color: var(--gray-dark);
