@@ -29,7 +29,7 @@ let emergencyDivCon = document.querySelector(
 );
 
 let mode = "add";
-let editingIndex = null;
+let editingId = null;
 
 let noContacts = document.querySelector(".no-contact-div");
 let contactsCards = document.querySelector(".contacts");
@@ -182,7 +182,7 @@ function validateForm() {
 function isDuplicatedNumber(phoneValue) {
   return contacts.some((contact, index) => {
     return (
-      contact.phone === phoneValue && (index !== editingIndex || mode === "add")
+      contact.phone === phoneValue && (index !== editingId || mode === "add")
     );
   });
 }
@@ -191,7 +191,7 @@ function isDuplicatedNumber(phoneValue) {
 function createContact() {
   // -take inputs.value =>>make object
   let contact = {
-    id:Date.now,
+    id:(mode=== "edit")?editingId:Date.now(),
     name: nameInput.value.trim(),
     phone: phoneInput.value.trim(),
     email: emailInput.value.trim(),
@@ -200,7 +200,9 @@ function createContact() {
     notes: notes.value.trim(),
     favourite: fav.checked,
     emergency: emrg.checked,
-    photo: photo.getAttribute("src") || null,
+    photo: photo.hasAttribute("src")
+  ? photo.getAttribute("src")
+  : null,
   };
   return contact;
 }
@@ -354,7 +356,6 @@ function renderContact(contact, index) {
           text: "Your Contact has been deleted.",
           icon: "success",
         });
-        // contacts.splice(index, 1);
         contacts = contacts.filter(c => c.id !== contact.id);
         totalcnt.forEach((e) => (e.innerHTML = `${contacts.length}`));
         contactCard.remove();
@@ -369,7 +370,7 @@ function renderContact(contact, index) {
   let editIcon = contactCard.querySelector(".pen");
   editIcon.addEventListener("click", (e) => {
     mode = "edit";
-    editingIndex = index;
+    editingId = contact.id;
     fillForm(contact);
     overlay.style.display = "flex";
   });
@@ -387,56 +388,61 @@ function fillForm(contact) {
   notes.value = contact.notes;
   fav.checked = contact.favourite;
   emrg.checked = contact.emergency;
-  photo.src = contact.photo;
-}
-
-// =>determine fav-contacts and render them
-function renderFavouriteContacts() {
-  const favouriteContacts = contacts.filter((con) => con.favourite);
-  favouriteDivCon.innerHTML = "";
-  favouriteContacts.forEach((con) =>
-    renderSmallContact(con, "fav", "phone", favouriteDivCon),
-  );
-  favouriteContacts.length === 0
-    ? (noFav.style.display = "block")
-    : (noFav.style.display = "none");
-  favTotal.innerHTML = favouriteContacts.length;
-}
-
-// =>determine emergency-contacts and render them
-function renderEmergencyContacts() {
-  const emergencyContacts = contacts.filter((con) => con.emergency);
-  emergencyDivCon.innerHTML = "";
-  emergencyContacts.forEach((con) =>
-    renderSmallContact(con, "emerg", "heart", emergencyDivCon),
-  );
-  if (emergencyContacts.length === 0) {
-    noemerg.style.display = "block";
+  if (contact.photo) {
+    photo.src = contact.photo;
+    userIcon.style.display = "none";
   } else {
-    noemerg.style.display = "none";
+    photo.removeAttribute("src");
+    userIcon.style.display = "inline-block";
   }
-  emergTotal.innerHTML = emergencyContacts.length;
 }
 
-// =>render small contact for emergency and favourite
-function renderSmallContact(contact, type, icon, container) {
-  const contactCard = document.createElement("div");
-  contactCard.classList.add(
-    "rounded",
-    "d-flex",
-    "align-center",
-    "justify-between",
-    `small-${type}-contact`,
-  );
-  contactCard.innerHTML = ` 
+  // =>determine fav-contacts and render them
+  function renderFavouriteContacts() {
+    const favouriteContacts = contacts.filter((con) => con.favourite);
+    favouriteDivCon.innerHTML = "";
+    favouriteContacts.forEach((con) =>
+      renderSmallContact(con, "fav", "phone", favouriteDivCon),
+    );
+    favouriteContacts.length === 0
+      ? (noFav.style.display = "block")
+      : (noFav.style.display = "none");
+    favTotal.innerHTML = favouriteContacts.length;
+  }
+
+  // =>determine emergency-contacts and render them
+  function renderEmergencyContacts() {
+    const emergencyContacts = contacts.filter((con) => con.emergency);
+    emergencyDivCon.innerHTML = "";
+    emergencyContacts.forEach((con) =>
+      renderSmallContact(con, "emerg", "heart", emergencyDivCon),
+    );
+    if (emergencyContacts.length === 0) {
+      noemerg.style.display = "block";
+    } else {
+      noemerg.style.display = "none";
+    }
+    emergTotal.innerHTML = emergencyContacts.length;
+  }
+
+  // =>render small contact for emergency and favourite
+  function renderSmallContact(contact, type, icon, container) {
+    const contactCard = document.createElement("div");
+    contactCard.classList.add(
+      "rounded",
+      "d-flex",
+      "align-center",
+      "justify-between",
+      `small-${type}-contact`,
+    );
+    contactCard.innerHTML = ` 
                                     <div class="rounded  d-flex align-center justify-start">
                                         <div
                                             class="con-img-small rounded text-center d-flex align-center justify-center position-relative bold">
-                                            ${
-                                              contact.photo
-                                                ? `<img src="${contact.photo}"alt="Photo of ${contact.name}"class="object-cover w-100 h-100 position-absolute inset-0 rounded">`
-                                                : `${contact.name.slice(0, 2).toUpperCase()}`
-                                            }
+                                            ${contact.photo
+        ? `<img src="${contact.photo}"alt="Photo of ${contact.name}"class="object-cover w-100 h-100 position-absolute inset-0 rounded">`
+        : `${contact.name.slice(0, 2).toUpperCase()}`
+      }
                                         </div>
                                         <div class="d-flex flex-column align-start justify-center">
                                             <div class="bold">${contact.name}</div>
@@ -446,148 +452,150 @@ function renderSmallContact(contact, type, icon, container) {
                                     <div class="con-icon ${icon} cursor-pointer"><a href="tel:${contact.phone}"><i
                                                 class="fa-solid fa-phone"></i></a></div>
   `;
-  container.appendChild(contactCard);
-}
+    container.appendChild(contactCard);
+  }
 
-// =>>SUBMIT FORM
-saveBtn.addEventListener("click", function (e) {
-  e.preventDefault();
-  if (validateForm()) {
-    // all inputs are valid
-    if (mode === "edit") {
-      contacts[editingIndex] = createContact();
-      closeForm();
-      form.reset();
-      localStorage.setItem("contacts", JSON.stringify(contacts));
-      Swal.fire({
-        title: "Updated!",
-        text: "Contact has been updated successfully.",
-        icon: "success",
-      });
-      mode = "add";
-      editingIndex = null;
-      contactsCards.innerHTML = "";
-      contacts.forEach(renderContact);
-      renderFavouriteContacts();
-      renderEmergencyContacts();
-    } else if (isDuplicatedNumber(phoneInput.value.trim())) {
-      // =>Duplicated number
-      const duplicatedContact = contacts.find(
-        (contact) => contact.phone === phoneInput.value.trim(),
-      );
-      Swal.fire({
-        title: "Duplicate Phone Number!",
-        text: `A contact with phone number already exists: ${duplicatedContact.name}.`,
-        icon: "error",
-        confirmButtonText: "OK",
-        confirmButtonColor: "#C72E2E",
-      });
-      closeForm();
-    } else {
-      // => add contact
-      const contact = createContact();
-      saveContact(contact);
-      Swal.fire({
-        title: "Added",
-        text: "Contact has been added successfully.",
-        icon: "success",
-        timer: 2000,
-        showConfirmButton: false,
-      });
-      contactsCards.innerHTML = "";
-      contacts.forEach(renderContact);
-      renderFavouriteContacts();
-      renderEmergencyContacts();
-      closeForm();
-    }
-  } else {
-    //if there is at least one input is invalid
-    Swal.fire({
-      icon: "error",
-      title: "Invalid Operation!",
-      text: "Please, edit the fields to be as required or close the form.",
-      confirmButtonText: "Edit",
-      showCancelButton: true,
-      cancelButtonText: "Close",
-      cancelButtonColor: "#C72E2E",
-    }).then((result) => {
-      //=>cancel button
-      if (result.dismiss === Swal.DismissReason.cancel) {
+  // =>>SUBMIT FORM
+  saveBtn.addEventListener("click", function (e) {
+    e.preventDefault();
+    if (validateForm()) {
+      // all inputs are valid
+      if (mode === "edit") {
+        const index = contacts.findIndex(con => con.id === editingId)
+        contacts[index] = createContact();
+        closeForm();
+        form.reset();
+        localStorage.setItem("contacts", JSON.stringify(contacts));
+        Swal.fire({
+          title: "Updated!",
+          text: "Contact has been updated successfully.",
+          icon: "success",
+        });
+        mode = "add";
+        editingId = null;
+        contactsCards.innerHTML = "";
+        contacts.forEach(renderContact);
+        renderFavouriteContacts();
+        renderEmergencyContacts();
+      } else if (isDuplicatedNumber(phoneInput.value.trim())) {
+        // =>Duplicated number
+        const duplicatedContact = contacts.find(
+          (contact) => contact.phone === phoneInput.value.trim(),
+        );
+        Swal.fire({
+          title: "Duplicate Phone Number!",
+          text: `A contact with phone number already exists: ${duplicatedContact.name}.`,
+          icon: "error",
+          confirmButtonText: "OK",
+          confirmButtonColor: "#C72E2E",
+        });
+        closeForm();
+      } else {
+        // => add contact
+        const contact = createContact();
+        saveContact(contact);
+        Swal.fire({
+          title: "Added",
+          text: "Contact has been added successfully.",
+          icon: "success",
+          timer: 2000,
+          showConfirmButton: false,
+        });
+        contactsCards.innerHTML = "";
+        contacts.forEach(renderContact);
+        renderFavouriteContacts();
+        renderEmergencyContacts();
         closeForm();
       }
-      //edit button
-      if (result.isConfirmed) {
-        return;
-      }
-    });
-  }
-});
-
-// __________________________________________________________________________
-//Main Logic
-
-// =>Open Form
-addBtn.addEventListener("click", function () {
-  overlay.style.display = "flex";
-});
-
-// =>Close Form
-cancel.addEventListener("click", closeForm);
-exitIcon.addEventListener("click", closeForm);
-
-// if i click on any point outside form => Close Form
-overlay.addEventListener("click", function (e) {
-  if (e.target === overlay) closeForm();
-});
-
-// if click Esc on the Keyboard => Close Form
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") closeForm();
-});
-
-// =>Put image in the div instead of userIcon
-inputPhoto.addEventListener("change", function () {
-  const file = inputPhoto.files[0];
-
-  if (!file) {
-    userIcon.style.display = "inline-block";
-    photo.removeAttribute("src");
-    return;
-  }
-
-  const reader = new FileReader();
-
-  reader.onload = function (e) {
-    photo.src = e.target.result;
-    userIcon.style.display = "none";
-  };
-
-  reader.readAsDataURL(file);
-});
-
-// =>UI name input
-listener(validateName, nameInput);
-
-// =>UI email input
-listener(validateEmail, emailInput);
-
-// =>UI phone input
-listener(validatePhone, phoneInput);
-
-// =>UI address input
-listener(validateAddress, addressInput);
-
-//=>>searchBar
-searchBar.addEventListener("input", function () {
-  const searchVal = searchBar.value.toLowerCase().trim();
-  const requiredContacts = contacts.filter((contact) => {
-    return (
-      contact.name.toLowerCase().includes(searchVal) ||
-      contact.email.toLowerCase().includes(searchVal) ||
-      contact.phone.toLowerCase().includes(searchVal)
-    );
+    } else {
+      //if there is at least one input is invalid
+      Swal.fire({
+        icon: "error",
+        title: "Invalid Operation!",
+        text: "Please, edit the fields to be as required or close the form.",
+        confirmButtonText: "Edit",
+        showCancelButton: true,
+        cancelButtonText: "Close",
+        cancelButtonColor: "#C72E2E",
+      }).then((result) => {
+        //=>cancel button
+        if (result.dismiss === Swal.DismissReason.cancel) {
+          closeForm();
+        }
+        //edit button
+        if (result.isConfirmed) {
+          return;
+        }
+      });
+    }
   });
-  contactsCards.innerHTML = "";
-  updateContactsCards(requiredContacts);
-  requiredContacts.forEach(renderContact);
-});
+
+  // __________________________________________________________________________
+  //Main Logic
+
+  // =>Open Form
+  addBtn.addEventListener("click", function () {
+    overlay.style.display = "flex";
+  });
+
+  // =>Close Form
+  cancel.addEventListener("click", closeForm);
+  exitIcon.addEventListener("click", closeForm);
+
+  // if i click on any point outside form => Close Form
+  overlay.addEventListener("click", function (e) {
+    if (e.target === overlay) closeForm();
+  });
+
+  // if click Esc on the Keyboard => Close Form
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeForm();
+  });
+
+  // =>Put image in the div instead of userIcon
+  inputPhoto.addEventListener("change", function () {
+    const file = inputPhoto.files[0];
+
+    if (!file) {
+      userIcon.style.display = "inline-block";
+      photo.removeAttribute("src");
+      return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = function (e) {
+      photo.src = e.target.result;
+      userIcon.style.display = "none";
+    };
+
+    reader.readAsDataURL(file);
+  });
+
+  // =>UI name input
+  listener(validateName, nameInput);
+
+  // =>UI email input
+  listener(validateEmail, emailInput);
+
+  // =>UI phone input
+  listener(validatePhone, phoneInput);
+
+  // =>UI address input
+  listener(validateAddress, addressInput);
+
+  //=>>searchBar
+  searchBar.addEventListener("input", function () {
+    const searchVal = searchBar.value.toLowerCase().trim();
+    const requiredContacts = contacts.filter((contact) => {
+      return (
+        contact.name.toLowerCase().includes(searchVal) ||
+        contact.email.toLowerCase().includes(searchVal) ||
+        contact.phone.toLowerCase().includes(searchVal)
+      );
+    });
+    contactsCards.innerHTML = "";
+    updateContactsCards(requiredContacts);
+    requiredContacts.forEach(renderContact);
+  });
+
