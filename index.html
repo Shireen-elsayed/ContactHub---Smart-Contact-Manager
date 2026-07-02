@@ -159,7 +159,7 @@
                     </div>
                     <div class="d-flex flex-column justify-start gap-5">
                         <p>FAVOURITES</p>
-                        <span class="counter bold fnt-sz-20">0</span>
+                        <span class="counter bold fnt-sz-20 fav-cnt">0</span>
                     </div>
                 </div>
                 <div class="counters d-flex align-center gap-20 rounded">
@@ -168,7 +168,7 @@
                     </div>
                     <div class="d-flex flex-column justify-start gap-5">
                         <p>EMERGENCY</p>
-                        <span class="counter bold fnt-sz-20">0</span>
+                        <span class="counter bold fnt-sz-20 emerg-cnt">0</span>
                     </div>
                 </div>
             </div>
@@ -204,8 +204,10 @@
                                 <p>Quick access to starred contacts</p>
                             </div>
                         </div>
-                        <div class="fav-content">
+                        <div class="fav-content overflow-auto" style="height: 250px; padding:10px">
                             <span class="no-fav text-center">No favourites yet</span>
+                            <div class="d-grid gap-10 fav-content-grid">
+                            </div>
                         </div>
                     </div>
 
@@ -219,13 +221,19 @@
                                 <p>Important contacts for urgent calls</p>
                             </div>
                         </div>
-                        <div class="urgent-content">
+                        <div class="urgent-content overflow-auto" style="height: 250px; padding:10px;">
                             <span class="no-urgent text-center">No emergency contacts</span>
+                            <div class="d-grid gap-10 fav-content-grid">
+
+
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
+
+
 
     </main>
 

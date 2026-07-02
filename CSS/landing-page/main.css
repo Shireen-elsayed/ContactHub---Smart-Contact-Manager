@@ -184,6 +184,38 @@ body {
     background-color: var(--purple-light);
 }
 
+.con-img-small {
+    width: 80px;
+    height: 75px;
+    margin: 10px;
+    background-color: var(--purple-light);
+}
+
+.small-fav-contact,.small-emerg-contact {
+    background-color: #F9FAFB;
+    border: 1px solid var(--gray-mid);
+}
+
+.small-fav-contact:hover {
+    background-color: var(--yellow-light);
+    cursor: pointer;
+    border: 1px solid var(--yellow-dark);
+    .phone{
+        color:#fff;
+        background-color: var(--green-dark);
+    }
+}
+
+.small-emerg-contact:hover {
+    background-color: var(--red-light);
+    cursor: pointer;
+    border: 1px solid #fccccf;
+    .heart{
+        color:#fff;
+        background-color: var(--red-dark);
+    }
+}
+
 .con-icon {
     padding: 10px 8px;
     margin-right: 10px;
@@ -214,7 +246,8 @@ body {
     background-color: var(--yellow-light);
 }
 
-.heart {
+.heart,
+.emergency {
     color: var(--red-dark);
     background-color: var(--red-light);
 }
@@ -259,6 +292,28 @@ body {
     grid-template-columns: 1fr;
 }
 
+.top-star {
+    background-color: var(--yellow-dark);
+    width: 20px;
+    height: 20px;
+    z-index: 10;
+    top: -5px;
+    right: -5px;
+}
+
+.bottom-hrt {
+    background-color: var(--red-dark);
+    width: 20px;
+    height: 20px;
+    z-index: 10;
+    bottom: -5px;
+    right: -5px;
+}
+
+
+.fav-content-grid {
+    grid-template-columns: 1fr;
+}
 
 /* Media Queries if needed */
 @media (min-width: 576px) {
@@ -272,6 +327,9 @@ body {
         }
     }
 
+    .fav-content-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 
 }
 
@@ -288,6 +346,10 @@ body {
 @media (min-width: 1200px) {
     .contacts-cards {
         grid-template-columns: 1fr auto;
+    }
+
+    .fav-content-grid {
+        grid-template-columns: 1fr;
     }
 }
 

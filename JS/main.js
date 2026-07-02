@@ -21,18 +21,31 @@ let notes = document.getElementById("Notes");
 let searchBar = document.querySelector("#search");
 let fav = document.getElementById("Favourite");
 let emrg = document.getElementById("Emergency");
+let favouriteDiv = document.querySelector(".fav-content");
+let emergencyDiv = document.querySelector(".urgent-content");
+let favouriteDivCon = document.querySelector(".fav-content .fav-content-grid");
+let emergencyDivCon = document.querySelector(
+  ".urgent-content .fav-content-grid",
+);
 
 let mode = "add";
 let editingIndex = null;
 
 let noContacts = document.querySelector(".no-contact-div");
 let contactsCards = document.querySelector(".contacts");
+let noFav = document.querySelector(".no-fav");
+let noemerg = document.querySelector(".no-urgent");
+
 let contacts = JSON.parse(localStorage.getItem("contacts")) || [];
 
+let favTotal = document.querySelector(".fav-cnt");
+let emergTotal = document.querySelector(".emerg-cnt");
 let totalcnt = document.querySelectorAll(".total-cnt");
+
 totalcnt.forEach((e) => (e.innerHTML = `${contacts.length}`));
 contacts.forEach(renderContact);
-
+renderFavouriteContacts();
+renderEmergencyContacts();
 updateContactsCards(contacts);
 
 //Functions
@@ -56,6 +69,8 @@ function closeForm() {
   photo.removeAttribute("src");
   form.reset();
 }
+
+// =>
 
 //validation inputs
 // =>invalid
@@ -176,6 +191,7 @@ function isDuplicatedNumber(phoneValue) {
 function createContact() {
   // -take inputs.value =>>make object
   let contact = {
+    id:Date.now,
     name: nameInput.value.trim(),
     phone: phoneInput.value.trim(),
     email: emailInput.value.trim(),
@@ -189,7 +205,6 @@ function createContact() {
   return contact;
 }
 
-//
 function updateContactsCards(arr) {
   if (arr.length === 0) {
     noContacts.style.display = "flex";
@@ -226,14 +241,16 @@ function renderContact(contact, index) {
     "align-start",
   );
   contactCard.innerHTML = `
-   <div class="d-flex align-center gap-10 justify-start">
+  <div class="d-flex align-center gap-10 justify-start">
                                 <div
-                                    class="con-img rounded text-center d-flex align-center justify-center position-relative overflow-hidden bold">
-                                   ${
-                                     contact.photo
-                                       ? `<img src="${contact.photo}"alt="Photo of ${contact.name}"class="object-cover w-100 h-100 position-absolute inset-0">`
-                                       : `${contact.name.slice(0, 2).toUpperCase()}`
-                                   }
+                                    class="con-img rounded text-center d-flex align-center justify-center position-relative bold">
+                                  ${
+                                    contact.photo
+                                      ? `<img src="${contact.photo}"alt="Photo of ${contact.name}"class="object-cover w-100 h-100 position-absolute inset-0 rounded">`
+                                      : `${contact.name.slice(0, 2).toUpperCase()}`
+                                  }
+                                  <span class="position-absolute rounded-circle top-star"><i class="fa-solid fa-star" style="font-size: 10px; color:#fff"></i></span>
+                                  <span class="position-absolute rounded-circle bottom-hrt"><i class="fa-solid fa-heart-pulse" style="font-size: 10px; color:#fff;"></i></span>
                                 </div>
                                 <div>
                                     <h2>${contact.name}</h2>
@@ -254,8 +271,12 @@ function renderContact(contact, index) {
                                 <div class="con-icon location"><i class="fa-solid fa-location-dot"></i></div>
                                 <span>${contact.address}</span>
                             </div>
-                            <span class="con-icon relation "
+                            <div class="d-flex">
+                            <span class="con-icon relation"
                                 style="padding: 10px; font-size: var(--fz-12);">${contact.relation}</span>
+                            <span class="con-icon emergency"
+                                style="padding: 10px; font-size: var(--fz-12);"><i class="fa-solid fa-heart-pulse" style="margin-right:5px"></i>Emergency</span>
+                            </div>
                             <div class="d-flex align-center ">
                                 <div class="con-icon envelope-static"><i class="fa-regular fa-note-sticky"></i></div>
                                 <span>${contact.notes ? contact.notes : "No notes"}</span>
@@ -263,8 +284,8 @@ function renderContact(contact, index) {
                             <div class="line w-100" style="height: 2px; background-color: var(--bg-color);"></div>
                             <div class="d-flex align-center justify-between w-100">
                                 <div class="d-flex align-center ">
-                                    <div class="con-icon phone cursor-pointer"><a href="tel:+"><i class="fa-solid fa-phone"></i></a></div>
-                                    <div class="con-icon envelope cursor-pointer"><a href="mailto:"><i class="fa-solid fa-envelope"></i></a></div>
+                                    <div class="con-icon phone cursor-pointer"><a href="tel:${contact.phone}"><i class="fa-solid fa-phone"></i></a></div>
+                                    <div class="con-icon envelope cursor-pointer"><a href="mailto:${contact.email}"><i class="fa-solid fa-envelope"></i></a></div>
                                 </div>
                                 <div class="d-flex align-center ">
                                     <div class="con-icon star cursor-pointer"><i class="fa-solid fa-star"></i></div>
@@ -275,6 +296,47 @@ function renderContact(contact, index) {
                                 </div>
                             </div>
   `;
+
+  //add starIcon
+  let star = contactCard.querySelector(".star");
+  let topStar = contactCard.querySelector(".top-star");
+  star.addEventListener("click", () => {
+    contact.favourite = !contact.favourite;
+    if (contact.favourite) {
+      topStar.classList.remove("d-none");
+    } else {
+      topStar.classList.add("d-none");
+    }
+    localStorage.setItem("contacts", JSON.stringify(contacts));
+    renderFavouriteContacts();
+  });
+  if (contact.favourite) topStar.classList.remove("d-none");
+  else topStar.classList.add("d-none");
+
+  //add heartIcon
+  let heart = contactCard.querySelector(".heart");
+  let bottomHrt = contactCard.querySelector(".bottom-hrt");
+  let emergency = contactCard.querySelector(".emergency");
+  heart.addEventListener("click", () => {
+    contact.emergency = !contact.emergency;
+    if (contact.emergency) {
+      bottomHrt.classList.remove("d-none");
+      emergency.classList.remove("d-none");
+    } else {
+      bottomHrt.classList.add("d-none");
+      emergency.classList.add("d-none");
+    }
+    localStorage.setItem("contacts", JSON.stringify(contacts));
+    renderEmergencyContacts();
+  });
+   if (contact.emergency) {
+     bottomHrt.classList.remove("d-none");
+     emergency.classList.remove("d-none");
+   } else {
+     bottomHrt.classList.add("d-none");
+     emergency.classList.add("d-none");
+   }
+
   let trashIcon = contactCard.querySelector(".trash");
   trashIcon.addEventListener("click", (e) => {
     Swal.fire({
@@ -292,10 +354,13 @@ function renderContact(contact, index) {
           text: "Your Contact has been deleted.",
           icon: "success",
         });
-        contacts.splice(index, 1);
+        // contacts.splice(index, 1);
+        contacts = contacts.filter(c => c.id !== contact.id);
         totalcnt.forEach((e) => (e.innerHTML = `${contacts.length}`));
         contactCard.remove();
         updateContactsCards(contacts);
+        renderFavouriteContacts();
+        renderEmergencyContacts();
         localStorage.setItem("contacts", JSON.stringify(contacts));
       }
     });
@@ -308,12 +373,12 @@ function renderContact(contact, index) {
     fillForm(contact);
     overlay.style.display = "flex";
   });
-
   contactsCards.appendChild(contactCard);
 }
 
 // => when open form by using editIcon
 function fillForm(contact) {
+  id = contact.id;
   nameInput.value = contact.name;
   phoneInput.value = contact.phone;
   emailInput.value = contact.email;
@@ -323,6 +388,65 @@ function fillForm(contact) {
   fav.checked = contact.favourite;
   emrg.checked = contact.emergency;
   photo.src = contact.photo;
+}
+
+// =>determine fav-contacts and render them
+function renderFavouriteContacts() {
+  const favouriteContacts = contacts.filter((con) => con.favourite);
+  favouriteDivCon.innerHTML = "";
+  favouriteContacts.forEach((con) =>
+    renderSmallContact(con, "fav", "phone", favouriteDivCon),
+  );
+  favouriteContacts.length === 0
+    ? (noFav.style.display = "block")
+    : (noFav.style.display = "none");
+  favTotal.innerHTML = favouriteContacts.length;
+}
+
+// =>determine emergency-contacts and render them
+function renderEmergencyContacts() {
+  const emergencyContacts = contacts.filter((con) => con.emergency);
+  emergencyDivCon.innerHTML = "";
+  emergencyContacts.forEach((con) =>
+    renderSmallContact(con, "emerg", "heart", emergencyDivCon),
+  );
+  if (emergencyContacts.length === 0) {
+    noemerg.style.display = "block";
+  } else {
+    noemerg.style.display = "none";
+  }
+  emergTotal.innerHTML = emergencyContacts.length;
+}
+
+// =>render small contact for emergency and favourite
+function renderSmallContact(contact, type, icon, container) {
+  const contactCard = document.createElement("div");
+  contactCard.classList.add(
+    "rounded",
+    "d-flex",
+    "align-center",
+    "justify-between",
+    `small-${type}-contact`,
+  );
+  contactCard.innerHTML = ` 
+                                    <div class="rounded  d-flex align-center justify-start">
+                                        <div
+                                            class="con-img-small rounded text-center d-flex align-center justify-center position-relative bold">
+                                            ${
+                                              contact.photo
+                                                ? `<img src="${contact.photo}"alt="Photo of ${contact.name}"class="object-cover w-100 h-100 position-absolute inset-0 rounded">`
+                                                : `${contact.name.slice(0, 2).toUpperCase()}`
+                                            }
+                                        </div>
+                                        <div class="d-flex flex-column align-start justify-center">
+                                            <div class="bold">${contact.name}</div>
+                                            <div style="color:var(--gray-dark); margin-top:5px">${contact.phone}</div>
+                                        </div>
+                                    </div>
+                                    <div class="con-icon ${icon} cursor-pointer"><a href="tel:${contact.phone}"><i
+                                                class="fa-solid fa-phone"></i></a></div>
+  `;
+  container.appendChild(contactCard);
 }
 
 // =>>SUBMIT FORM
@@ -344,6 +468,8 @@ saveBtn.addEventListener("click", function (e) {
       editingIndex = null;
       contactsCards.innerHTML = "";
       contacts.forEach(renderContact);
+      renderFavouriteContacts();
+      renderEmergencyContacts();
     } else if (isDuplicatedNumber(phoneInput.value.trim())) {
       // =>Duplicated number
       const duplicatedContact = contacts.find(
@@ -370,6 +496,8 @@ saveBtn.addEventListener("click", function (e) {
       });
       contactsCards.innerHTML = "";
       contacts.forEach(renderContact);
+      renderFavouriteContacts();
+      renderEmergencyContacts();
       closeForm();
     }
   } else {
